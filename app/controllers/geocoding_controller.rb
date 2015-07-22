@@ -10,6 +10,23 @@ class GeocodingController < ApplicationController
     @street_address = params[:user_street_address]
     url_safe_street_address = URI.encode(@street_address)
 
+    def kevin
+        url = "http://maps.googleapis.com/maps/api/geocode/json?address=#{@street_address}"
+
+
+        parsed_data = JSON.parse(open(url).read)
+        latitude = parsed_data["results"][0]["geometry"]["location"]["lat"]
+    end
+
+    def nicole
+         url = "http://maps.googleapis.com/maps/api/geocode/json?address=(#{@street_address}"
+
+
+        parsed_data = JSON.parse(open(url).read)
+        longitude = parsed_data["results"][0]["geometry"]["location"]["lng"]
+    end
+
+
     # ==========================================================================
     # Your code goes below.
     # The street address the user input is in the string @street_address.
@@ -19,9 +36,9 @@ class GeocodingController < ApplicationController
 
 
 
-    @latitude = "Replace this string with your answer."
+    @latitude = kevin
 
-    @longitude = "Replace this string with your answer."
+    @longitude = nicole
 
     render("street_to_coords.html.erb")
   end
